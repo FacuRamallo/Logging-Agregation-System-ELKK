@@ -29,7 +29,7 @@
                     <pattern>
                         <pattern>
                             {
-                            "date": "%date{ISO8601,GMT}",
+                            "date": "%date{ISO8601,GMT+2}",
                             "priority": "%level",
                             "pid": "${PID:- }",
                             "thread": "%t",
@@ -54,7 +54,7 @@
                     <pattern>
                         <pattern>
                             {
-                            "date": "%date{ISO8601,GMT}",
+                            "date": "%date{ISO8601,GMT+2}",
                             "priority": "%level",
                             "pid": "${PID:- }",
                             "thread": "%t",

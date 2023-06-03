@@ -11,11 +11,11 @@ myapplication:
     all-headers: ${headers}
 
 logging:
-  console:
-    level: INFO
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSS,Europe/Madrid
 
 logback:
   access:
     enabled: true
-    config: classpath:logback-access-spring.xml
+    config: "classpath:logback-access-spring.xml"
     local-port-strategy: local
