@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: "k8s"
+
+
+myapplication:
+  name: "loggingDemo"
+  author: "facundo-ramallo"
+  logging:
+    headers: PublisherId,ApiKey
+    all-headers: ${headers}

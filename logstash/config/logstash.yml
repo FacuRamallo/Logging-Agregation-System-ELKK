@@ -1,0 +1,8 @@
+
+http.host: 0.0.0.0
+monitoring:
+  elasticsearch:
+    hosts: http://localhost:9200
+    ssl:
+      verification_mode: none
+
