@@ -13,3 +13,9 @@ myapplication:
 logging:
   console:
     level: INFO
+
+logback:
+  access:
+    enabled: true
+    config: classpath:logback-access-spring.xml
+    local-port-strategy: local

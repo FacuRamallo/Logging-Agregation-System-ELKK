@@ -45,7 +45,7 @@
             </encoder>
         </appender>
         <appender name="FILE-JSON" class="ch.qos.logback.core.FileAppender">
-            <file>logs/app-logs.log</file>
+            <file>logs/app_logs.log</file>
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>
                     <arguments>

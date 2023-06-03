@@ -15,68 +15,13 @@
     <springProfile name="k8s">
         <springProperty name="headers" source="myapplication.logging.headers" defaultValue="" />
         <appender name="CONSOLE_ACCESS" class="ch.qos.logback.core.ConsoleAppender">
-            <encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
-                <providers>
-                    <provider class="com.schibsted.spain.spring.autoconfig.logging.HeadersLoggingJsonProvider">
-                        <headers>${headers}</headers>
-                    </provider>
-                    <pattern>
-                        <pattern>
-                            {
-                            "clientip": "%realClientIp",
-                            "timestamp": "%date",
-                            "user": "%user",
-                            "thread": "%threadName",
-                            "request_line": "%requestURL",
-                            "http_verb": "%requestMethod",
-                            "http_request": "%requestURI",
-                            "http_query_string": "%queryString",
-                            "http_version": "%protocol",
-                            "http_status_code": "%statusCode",
-                            "response_bytes": "%bytesSent",
-                            "referer": "%header{Referer}",
-                            "agent": "%header{User-Agent}",
-                            "elapsed_time": "%elapsedTime",
-                            "team": "${team}"
-                            }
-                        </pattern>
-                    </pattern>
-                </providers>
-            </encoder>
+            <encoder class="net.logstash.logback.encoder.LogstashAccessEncoder"/>
         </appender>
-
-        <appender name="FILE-ACCES" class="ch.qos.logback.core.FileAppender">
-            <file>logs/access-logs.log</file>
-            <encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
-                <providers>
-                    <provider class="com.schibsted.spain.spring.autoconfig.logging.HeadersLoggingJsonProvider">
-                        <headers>${headers}</headers>
-                    </provider>
-                    <pattern>
-                        <pattern>
-                            {
-                            "clientip": "%realClientIp",
-                            "timestamp": "%date",
-                            "user": "%user",
-                            "thread": "%threadName",
-                            "request_line": "%requestURL",
-                            "http_verb": "%requestMethod",
-                            "http_request": "%requestURI",
-                            "http_query_string": "%queryString",
-                            "http_version": "%protocol",
-                            "http_status_code": "%statusCode",
-                            "response_bytes": "%bytesSent",
-                            "referer": "%header{Referer}",
-                            "agent": "%header{User-Agent}",
-                            "elapsed_time": "%elapsedTime",
-                            "team": "${team}"
-                            }
-                        </pattern>
-                    </pattern>
-                </providers>
-            </encoder>
+        <appender name="FILE_ACCES" class="ch.qos.logback.core.FileAppender">
+            <file>logs/access_logs.log</file>
+            <encoder class="net.logstash.logback.encoder.LogstashAccessEncoder"/>
         </appender>
-        <appender-ref ref="FILE-ACCES"/>
+        <appender-ref ref="FILE_ACCES"/>
         <appender-ref ref="CONSOLE_ACCESS"/>
     </springProfile>
 </configuration>
