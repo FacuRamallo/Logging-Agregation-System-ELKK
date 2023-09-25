@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
     <springProperty name="team" scope="context" source="myapplication.author" defaultValue="-"/>
 
-    <springProfile name="dev,test,integration-test,integrationTest">
-        <appender name="CONSOLE_ACCESS" class="ch.qos.logback.core.ConsoleAppender">
+    <springProfile name="dev">
+        <appender name="CONSOLE_ACCESS_DEV" class="ch.qos.logback.core.ConsoleAppender">
             <encoder>
                 <pattern>common</pattern>
             </encoder>
-            <withJansi>true</withJansi>
         </appender>
-        <appender-ref ref="CONSOLE_ACCESS"/>
+        <appender-ref ref="CONSOLE_ACCESS_DEV"/>
     </springProfile>
 
     <springProfile name="k8s">
-        <springProperty name="headers" source="myapplication.logging.headers" defaultValue="" />
-        <appender name="CONSOLE_ACCESS" class="ch.qos.logback.core.ConsoleAppender">
+        <appender name="CONSOLE_ACCESS_K8S" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LogstashAccessEncoder"/>
         </appender>
-        <appender name="FILE_ACCES" class="ch.qos.logback.core.FileAppender">
-            <file>logs/access_logs.log</file>
-            <encoder class="net.logstash.logback.encoder.LogstashAccessEncoder"/>
-        </appender>
-        <appender-ref ref="FILE_ACCES"/>
-        <appender-ref ref="CONSOLE_ACCESS"/>
+        <appender-ref ref="CONSOLE_ACCESS_K8S"/>
     </springProfile>
 </configuration>

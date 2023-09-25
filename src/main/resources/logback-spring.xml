@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
     <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
-    <springProperty name="team" scope="context" source="logging.ownerteam" defaultValue="-"/>
+    <springProperty name="team" scope="context" source="myapplication.author" defaultValue="-"/>
 
     <springProfile name="dev,test,integration-test,integrationTest">
         <springProperty name="consoleLogLevel" source="logging.console.level" defaultValue="INFO"/>
@@ -9,13 +11,8 @@
             <neverBlock>true</neverBlock>
             <appender-ref ref="CONSOLE"/>
         </appender>
-        <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
-            <neverBlock>true</neverBlock>
-            <appender-ref ref="FILE"/>
-        </appender>
         <root level="${consoleLogLevel}">
             <appender-ref ref="ASYNC_CONSOLE"/>
-            <appender-ref ref="ASYNC_FILE"/>
         </root>
     </springProfile>
 
@@ -44,43 +41,13 @@
                 </providers>
             </encoder>
         </appender>
-        <appender name="FILE-JSON" class="ch.qos.logback.core.FileAppender">
-            <file>logs/app_logs.log</file>
-            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-                <providers>
-                    <arguments>
-                        <fieldName>context</fieldName>
-                    </arguments>
-                    <pattern>
-                        <pattern>
-                            {
-                            "date": "%date{ISO8601,GMT+2}",
-                            "priority": "%level",
-                            "pid": "${PID:- }",
-                            "thread": "%t",
-                            "logger": "%logger",
-                            "message": "%.-10000msg",
-                            "stacktrace": "%.-10000throwable",
-                            "team": "%property{team}"
-                            }
-                        </pattern>
-                    </pattern>
-                    <mdc>net.logstash.logback.composite.loggingevent.MdcJsonProvider</mdc>
-                </providers>
-            </encoder>
-        </appender>
         <appender name="ASYNC_CONSOLE_JSON" class="ch.qos.logback.classic.AsyncAppender">
             <neverBlock>true</neverBlock>
             <appender-ref ref="CONSOLE-JSON"/>
         </appender>
-        <appender name="ASYNC_FILE_JSON" class="ch.qos.logback.classic.AsyncAppender">
-            <neverBlock>true</neverBlock>
-            <appender-ref ref="FILE-JSON"/>
-        </appender>
         <logger name="com.facuramallo" level="INFO" />
         <root level="INFO">
             <appender-ref ref="ASYNC_CONSOLE_JSON"/>
-            <appender-ref ref="ASYNC_FILE_JSON"/>
         </root>
     </springProfile>
 </configuration>

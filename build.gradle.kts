@@ -1,8 +1,11 @@
+import org.apache.groovy.parser.antlr4.GroovyParser.CreatedNameContext
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
+import org.gradle.internal.classpath.Instrumented.systemProperty
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 
 plugins {
     id("org.springframework.boot") version "2.7.12"
@@ -27,7 +30,7 @@ sourceSets{
 
 val integrationTests = task<Test>("integrationTests") {
     description = "Runs integration tests."
-    group = "com.backend"
+    group = "com.facuramallo"
 
     testClassesDirs = sourceSets["integrationTests"].output.classesDirs
     classpath = sourceSets["integrationTests"].runtimeClasspath
@@ -102,6 +105,14 @@ tasks.withType<Test> {
     }
 }
 
+tasks.named<BootBuildImage>("bootBuildImage") {
+    imageName = "logging_example_app"
+    environment.apply {
+        put("BP_JVM_VERSION","17")
+        put("spring.profiles.active","k8s")
+    }
+}
+
 application {
-    mainClass.set("com.facuramallo.logging.LoggingApplication")
+    mainClass.set("com.facuramallo.logging.LoggingApplicationKt")
 }

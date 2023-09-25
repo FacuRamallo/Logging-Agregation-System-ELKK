@@ -2,9 +2,8 @@ package com.facuramallo.logging
 
 import io.restassured.module.mockmvc.RestAssuredMockMvc.given
 import io.restassured.module.mockmvc.RestAssuredMockMvc.mockMvc
-import java.util.function.Consumer
-import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.equalTo
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -39,7 +38,9 @@ class LoggingTestCase {
             .status(OK)
             .body(equalTo("logs should be as wanted"))
 
-        assertTrue { output.out.contains("loggin a log from ") }
-
+        assertTrue { output.out.contains("loggin an info log from") }
+        assertTrue { output.out.contains("loggin a error log from") }
+        assertTrue { output.out.contains("loggin a warn log from") }
+        assertFalse { output.out.contains("loggin a debug log from") }
     }
 }
