@@ -31,7 +31,7 @@ class LoggingTestCase {
     fun setup() = mockMvc(mockMvc)
 
     @Test
-    fun `should log acces-log`(output: CapturedOutput) {
+    fun `should log app-logs`(output: CapturedOutput) {
         given()
             .get("/log")
             .then()
