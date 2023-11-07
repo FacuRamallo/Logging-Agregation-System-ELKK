@@ -9,8 +9,6 @@ services:
       - logging_app_data:/usr/share/logging_app/data
     ports:
       - "8080:8080"
-    links:
-      - fluentd
     logging:
       driver: "fluentd"
       options:
@@ -19,7 +17,10 @@ services:
     environment:
       - "SPRING_PROFILES_ACTIVE=k8s"
     depends_on:
-      - fluentd
+      fluentd:
+        condition: service_healthy
+    restart: unless-stopped
+
 
   fluentd:
     user: fluent
@@ -36,6 +37,12 @@ services:
       - "24224:24224/udp"
     networks:
       - kafkanet
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost" ]
+      interval: 1m30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
 
 
   zookeeper:

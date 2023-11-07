@@ -2,7 +2,6 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
-    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
     <springProperty name="team" scope="context" source="myapplication.author" defaultValue="-"/>
 
     <springProfile name="dev,test,integration-test,integrationTest">
@@ -26,7 +25,7 @@
                     <pattern>
                         <pattern>
                             {
-                            "date": "%date{ISO8601,GMT+2}",
+                            "date": "%date{yyyy-MM-dd'T'HH:mm:ss.SSSZZ}",
                             "priority": "%level",
                             "pid": "${PID:- }",
                             "thread": "%t",
