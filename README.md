@@ -5,8 +5,11 @@ and Logback configuration in the context of a Spring-boot application.
 The configuration set in this example is for learning purposes and should not be used in a production environment.
 
 This repository contains the source code for two articles, which provides a more detailed explanation:
+
 -**[Undestanding Logback](https://medium.com/@facuramallo8/understanding-logback-66044df087ed)**
+
 -**[Logging aggregation system](https://medium.com/@facuramallo8/logging-aggregation-system-d94f60f92dd0)**
+
 
 ## How to run it
 
@@ -28,7 +31,8 @@ If interested, inspect the files inside the "fluentd-image-build" folder or refe
 ### Step for the curious ones
 For a deeper understanding of how to configure Logback, consider modifying the files
 **logback-access-spring.xml** or **logback-spring.xml** located inside the resources package 
-- Refer to my article **[Undestanding Logback](https://medium.com/@facuramallo8/understanding-logback-66044df087ed)** to lear more about how to configure Logback.
+
+Refer to my article **[Undestanding Logback](https://medium.com/@facuramallo8/understanding-logback-66044df087ed)** to lear more about how to configure Logback.
 Modify what you want to later see the result in Kibana. 
 
 ### Step 2
@@ -53,7 +57,7 @@ You can customize this task by adding a code block to the '**build.gradle.kts**'
   `docker-compose up`
 - Wait for all the containers to be ready and running
 - Make a **GET** request to  `http://localhost:8080/log`
-- Open your browser and go to  `http://localhost:5601` and follow the steps in the last part of my article [Common Platform Dashboard](https://common-platform.mpi-internal.com/applications/es-microfc/scmspain/ms-re--ads-publication-api)
+- Open your browser and go to  `http://localhost:5601` and follow the steps in the last part of my article **[Logging aggregation system](https://medium.com/@facuramallo8/logging-aggregation-system-d94f60f92dd0)**
 to see the logs in Kibana
 
 
