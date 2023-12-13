@@ -28,6 +28,7 @@ RUN apt-get update \
       wget bzip2 gnupg dirmngr \
     " \
  && apt-get install -y --no-install-recommends $buildDeps \
+ && apt-get install -y curl \
  && echo 'gem: --no-document' >> /etc/gemrc \
  && gem install oj -v 3.16.1 \
  && gem install json -v 2.6.3 \
