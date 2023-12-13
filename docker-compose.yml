@@ -1,26 +1,27 @@
 version: '2.2'
 
 services:
-
-  logging_app:
-    image: docker.io/library/logging_example_app:latest
-    container_name: logging_spring_app
-    volumes:
-      - logging_app_data:/usr/share/logging_app/data
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
     ports:
-      - "8080:8080"
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: logging_app
-    environment:
-      - "SPRING_PROFILES_ACTIVE=k8s"
+      - "2181:2181"
+    networks:
+      - kafkanet
+  kafka:
+    image: wurstmeister/kafka
+    hostname: kafka
     depends_on:
-      fluentd:
-        condition: service_healthy
-    restart: unless-stopped
-
+      - zookeeper
+    networks:
+      - kafkanet
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: access-log-messages:1:1,app-log-messages:1:1
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092
 
   fluentd:
     user: fluent
@@ -37,36 +38,29 @@ services:
       - "24224:24224/udp"
     networks:
       - kafkanet
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost" ]
-      interval: 1m30s
-      timeout: 10s
-      retries: 5
     restart: unless-stopped
 
 
-  zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: zookeeper
+  logging_app:
+    build:
+      dockerfile: ./Dockerfile
+    container_name: logging_spring_app
+    volumes:
+      - logging_app_data:/usr/share/logging_app/data
     ports:
-      - "2181:2181"
-    networks:
-      - kafkanet
-
-  kafka:
-    image: wurstmeister/kafka
-    hostname: kafka
-    depends_on:
-      - zookeeper
-    networks:
-      - kafkanet
-    ports:
-      - "9092:9092"
+      - "8080:8080"
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-async: "true"
+        fluentd-address: localhost:24224
+        tag: logging_app
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: access-log-messages:1:1,app-log-messages:1:1
-      KAFKA_LISTENERS: PLAINTEXT://kafka:9092
+      - "SPRING_PROFILES_ACTIVE=k8s"
+    depends_on:
+      - fluentd
+    restart: unless-stopped
+
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.4.1-arm64
