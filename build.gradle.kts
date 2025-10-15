@@ -67,6 +67,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("ch.qos.logback:logback-access:1.4.14")
 
     // Test
     testImplementation("org.junit.jupiter:junit-jupiter-api")
