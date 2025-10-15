@@ -1,0 +1,6 @@
+<configuration>
+    <appender name="access_stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashAccessEncoder"/>
+    </appender>
+    <appender-ref ref="access_stdout"/>
+</configuration>
